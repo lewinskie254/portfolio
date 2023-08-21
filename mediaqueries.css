@@ -19,16 +19,16 @@
     #hamburger-nav {
         display: flex;
     }
-    #experience, .experience-details-container {
+    #experience, .experience-details-cotainer {
         margin-top: 2rem;
     }
-    #profile, .section-container{
+    #profile, .section-container {
         display: block;
     }
     .arrow {
         display: none;
     }
-    .section, .section-container {
+    section, .section-container {
         height: fit-content;
     }
     section {
