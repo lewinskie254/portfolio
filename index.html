@@ -1,1072 +1,273 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Lewis Machiu — Forward Deployed Engineer & ML practitioner. Neural-lab themed portfolio: NLP, computer vision, time-series, reinforcement learning, MLOps.">
-<meta name="author" content="Lewis Machiu">
-<meta property="og:title" content="Lewis Machiu // ML is Life">
-<meta property="og:description" content="Forward Deployed Engineer building cloud-native retail systems & machine learning solutions.">
-<meta property="og:type" content="website">
-<title>Lewis Machiu // Forward Deployed Engineer</title>
+<title>Lewis Machiu — Forward Deployed Engineer</title>
+<meta name="description" content="Lewis Machiu: Forward Deployed Engineer and founder of Dukamath. Cloud-native retail systems and machine learning (NLP, computer vision, time-series). Nairobi.">
+<meta property="og:title" content="Lewis Machiu — Forward Deployed Engineer">
+<meta property="og:description" content="Cloud-native retail systems and machine learning, built by embedding with the customer.">
+<meta name="theme-color" content="#06080f">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%2306080f'/><text x='50' y='68' font-size='58' text-anchor='middle' fill='%235ef2c8' font-family='serif' font-style='italic'>σ</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<style>
-/* ============================================================
-   LEWIS MACHIU — NEURAL LAB PORTFOLIO
-   Single self-contained file. Dark ML-lab theme.
-   ============================================================ */
-
-</style>
 </head>
 <body>
-<div id="lossbar"></div>
+<canvas id="net" aria-hidden="true"></canvas>
 
-<!-- ============ NAV ============ -->
-<nav class="top">
-  <div class="wrap">
-    <a class="brand" href="#top" aria-label="Lewis Machiu home">
-      <span class="logo">λ</span>
-      <span class="name">lewis.machiu</span>
-      <span class="ver">// v2026.11</span>
-    </a>
-    <div class="navlinks" id="navlinks">
-      <a href="#about"><span class="num">01</span>about</a>
-      <a href="#experience"><span class="num">02</span>experience</a>
-      <a href="#skills"><span class="num">03</span>skills</a>
-      <a href="#projects"><span class="num">04</span>projects</a>
-      <a href="#lab"><span class="num">05</span>activation_lab</a>
-      <a href="#research"><span class="num">06</span>research</a>
-      <a href="#contact"><span class="num">07</span>contact</a>
-      <a class="nav-cta" href="Lewis_Machiu_Resume.pdf" target="_blank" rel="noopener">resume.pdf ↗</a>
-    </div>
-    <button class="nav-toggle" id="navtoggle" aria-label="Toggle menu">menu</button>
-  </div>
-</nav>
+<div class="trainbar" aria-hidden="true">
+  <div class="trainbar-fill" id="trainFill"></div>
+  <span class="trainbar-txt mono" id="trainTxt">epoch 000/100 · loss 2.3500</span>
+</div>
 
-<!-- SVG defs for gradient strokes -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <linearGradient id="actgrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#39ff14"/>
-      <stop offset="55%" stop-color="#00ff9c"/>
-      <stop offset="100%" stop-color="#aaff00"/>
-    </linearGradient>
-    <linearGradient id="actgrad2" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#5dff3a"/>
-      <stop offset="100%" stop-color="#39ff14"/>
-    </linearGradient>
-  </defs>
-</svg>
-
-<!-- ============ HERO ============ -->
-<header class="hero" id="top">
-  <canvas id="neuralbg" aria-hidden="true"></canvas>
-  <div class="wrap">
-    <div class="console-line">
-      <span class="prompt">lewis@neural-lab</span><span>:</span><span>~$</span>
-      <span id="typed"></span><span class="caret"></span>
-    </div>
-    <div class="hero-tag"><span class="dot"></span> forward_deployed_engineer · ML practitioner · Nairobi / Nakuru, KE</div>
-    <h1 class="hero-name">Lewis <span class="grad">Machiu</span></h1>
-    <div class="hero-role">Forward Deployed Engineer <span class="sep">//</span> Founder, Dukamath <span class="sep">//</span> <span class="ml">ML is Life</span></div>
-    <p class="hero-sub">I embed with customers and turn business needs into working software — cloud-native retail systems and machine learning solutions shipped with Python, PyTorch, GCP, Terraform and Docker. Time-series, NLP, computer vision, and the occasional neural net written from scratch in NumPy.</p>
-
-    <div class="modelcard" aria-label="model card summary">
-      <div class="row"><div class="k">model_id</div><div class="v">lewis-machiu-fde-2026</div></div>
-      <div class="row"><div class="k">class</div><div class="v">forward_deployed_engineer</div></div>
-      <div class="row"><div class="k">trained_on</div><div class="v">Strategic Mgmt · Moi Univ · 10 yrs applied ML & systems</div></div>
-      <div class="row"><div class="k">stack</div><div class="v"><span class="pill">Python</span><span class="pill p">PyTorch</span><span class="pill">SQL</span><span class="pill p">GCP</span><span class="pill">Terraform</span><span class="pill m">Docker</span><span class="pill">Linux/Bash</span></div></div>
-      <div class="row"><div class="k">domains</div><div class="v"><span class="pill p">NLP</span><span class="pill m">Computer Vision</span><span class="pill">Time-Series</span><span class="pill p">RL</span><span class="pill m">MLOps</span></div></div>
-      <div class="row"><div class="k">status</div><div class="v"><span class="ok">● online</span> &nbsp;open to forward-deployed & ML roles</div></div>
-    </div>
-
-    <div class="hero-cta">
-      <a class="btn primary" href="#projects">▶ view experiments</a>
-      <a class="btn ghost" href="https://github.com/lewinskie254" target="_blank" rel="noopener">
-        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
-        github/lewinskie254
-      </a>
-      <a class="btn ghost" href="#lab">⟶ activation_lab</a>
-    </div>
-  </div>
-  <div class="scrollhint"><span class="mouse"></span>scroll · descend the layers</div>
+<header class="nav">
+  <a href="#top" class="brand mono">λ<span>.</span>machiu</a>
+  <nav class="mono">
+    <a href="#about">01 about</a>
+    <a href="#playground">02 activations</a>
+    <a href="#layers">03 experience</a>
+    <a href="#projects">04 projects</a>
+    <a href="#stack">05 stack</a>
+    <a href="#contact">06 contact</a>
+  </nav>
 </header>
-<style>
-/* ---------- EXPERIENCE (training epochs / timeline) ---------- */
-.tl{position:relative;padding-left:8px}
-.tl::before{content:"";position:absolute;left:14px;top:6px;bottom:6px;width:2px;background:var(--grad);border-radius:2px;opacity:.5}
-.tl-item{position:relative;padding:0 0 30px 46px}
-.tl-item:last-child{padding-bottom:0}
-.tl-item .node{
-  position:absolute;left:6px;top:3px;width:18px;height:18px;
-  clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);
-  background:var(--neon);box-shadow:0 0 12px rgba(57,255,20,.65);
-  display:grid;place-items:center;
-}
-.tl-item .node::after{content:"";width:5px;height:5px;border-radius:50%;background:var(--bg)}
-.tl-item .node.p{background:var(--toxic);box-shadow:0 0 12px rgba(0,255,156,.65)}
-.tl-item .node.m{background:var(--lime);box-shadow:0 0 12px rgba(170,255,0,.65)}
-.tl-item .node.g{background:var(--green);box-shadow:0 0 12px rgba(57,255,20,.65)}
-.tl-epoch{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:5px}
-.tl-epoch .ep{color:var(--cyan)}
-.tl-role{font-size:17px;font-weight:700;color:var(--text);line-height:1.25}
-.tl-org{font-family:var(--mono);font-size:13px;color:var(--cyan);margin-top:2px}
-.tl-org .loc{color:var(--muted)}
-.tl-dates{font-family:var(--mono);font-size:12px;color:var(--text-dim);margin-top:3px;margin-bottom:12px}
-.tl-body{font-size:14.5px;color:var(--text-dim)}
-.tl-body li{list-style:none;position:relative;padding-left:20px;margin-bottom:7px}
-.tl-body li::before{content:"▹";position:absolute;left:0;color:var(--purple);font-family:var(--mono)}
-.tl-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
-.tl-tags .t{font-family:var(--mono);font-size:11px;color:var(--text-dim);padding:2px 8px;border-radius:5px;border:1px solid var(--border);background:rgba(255,255,255,.02)}
-</style>
 
-<!-- ============ ABOUT ============ -->
-<section class="mod" id="about">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div>
-        <span class="sec-tag"><span class="n">01 //</span> model_card</span>
-        <h2 class="sec-title">About the <span class="grad">operator</span></h2>
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="eyebrow mono">// nairobi · remote · hybrid</p>
+    <h1>Lewis<br><em>Machiu</em></h1>
+    <p class="role mono"><span class="prompt">&gt;</span> <span id="typed"></span><span class="caret">▌</span></p>
+    <p class="lede">I embed with customers, then turn what the business needs into working software: cloud-native retail systems on one side, machine learning on the other.</p>
+
+    <div class="formula-card mono" aria-label="Decorative formula">
+      <div class="f-main">ŷ = <span class="sig">σ</span>( <b>W</b>·<b>x</b> + <b>b</b> )</div>
+      <div class="f-legend">
+        <span><b>x</b> = a customer's business need</span>
+        <span><b>W</b> = Python · SQL · GCP · Terraform · Docker</span>
+        <span><b>ŷ</b> = software that actually ships</span>
       </div>
-      <svg class="actcurve" viewBox="0 0 120 30"><path d="M2 28 L40 28 Q60 28 70 14 Q80 2 118 2"/></svg>
     </div>
 
+    <div class="cta">
+      <a class="btn primary mono" href="#projects">view projects →</a>
+      <a class="btn mono" href="https://github.com/lewinskie254" target="_blank" rel="noopener">github</a>
+      <a class="btn mono" href="https://www.youtube.com/@lewinskie254" target="_blank" rel="noopener">youtube</a>
+    </div>
+    <div class="scroll-hint mono">forward pass ↓</div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about" class="sec">
+    <div class="sec-head"><span class="idx mono">01</span><h2>Input <em>tensor</em></h2></div>
     <div class="about-grid">
-      <div class="bio reveal">
-        <p class="lead">I'm a <strong>Forward Deployed Engineer</strong> and founder who ships machine learning into production — not slides about it.</p>
-        <p>I founded <span class="hl">Dukamath</span>, where I embed directly with retail customers and design, build, and deploy <strong>cloud-native point-of-sale systems</strong> for distributed retail networks. The platform runs in <span class="hl2">Python</span> and <span class="hl2">SQL</span> over large-scale real-time transaction data, with repeatable <span class="hl3">GCP</span> environments provisioned through <span class="hl3">Terraform</span> and containerized microservices shipped with <span class="hl3">Docker</span>, automated on Linux and Bash. Every customer gets a system shaped to their actual workflow, not a generic product.</p>
-        <p>Before Dukamath I spent three years as a <span class="hl">freelance ML consultant</span> for e-commerce companies and startups — scoping to production, building the data pipelines that prepare training data, and applying <strong>NLP, computer vision, and time-series analysis</strong> while embedded inside client engineering teams. Earlier I authored <strong>150+ journal articles, technical reports and whitepapers</strong> in quantitative and STEM disciplines (IEEE/APA), analyzing empirical data with SPSS, R and Python — so the research discipline behind the models is real, not a line on a CV.</p>
-        <p>Off the clock I build ML for the love of it: a <span class="hl2">character-level Swahili language model trained from scratch in PyTorch</span>, stock-market predictors pairing ARIMA with neural nets and a reinforcement-learning trader, U-Net segmentation on satellite imagery, and convolutional networks written from the ground up in NumPy. <span class="hl">ML is life</span> — literally the bio on my GitHub.</p>
-
-        <div class="stat-row">
-          <div class="stat"><div class="num">10+</div><div class="lab">years building</div></div>
-          <div class="stat"><div class="num">34</div><div class="lab">public repos</div></div>
-          <div class="stat"><div class="num">150+</div><div class="lab">publications</div></div>
-        </div>
+      <div class="about-text reveal">
+        <p>I'm a Forward Deployed Engineer and the founder of <strong>Dukamath</strong>, where I build cloud-native point-of-sale systems tailored to each retail customer. The work is part engineering, part listening: sit with the business, find the real workflow, then ship software that fits it.</p>
+        <p>Before that I spent years as a freelance ML consultant for e-commerce companies and startups, taking projects from scoping to production across NLP, computer vision and time-series analysis. Before <em>that</em>, I wrote and analyzed research for a living, which is why I'm unusually fond of clear methodology sections.</p>
+        <p class="muted">Outside client work I train small models from scratch to understand them properly, and I make videos about it.</p>
       </div>
-
-      <div class="cardcard reveal">
-        <div class="ch"><span class="led"></span> model_card.json — lewis.machiu</div>
-        <div class="cb">
-          <div class="cr"><div class="ck">model_id</div><div class="cv">lewis-machiu-fde</div></div>
-          <div class="cr"><div class="ck">version</div><div class="cv">2026.11 <span class="ok">(stable)</span></div></div>
-          <div class="cr"><div class="ck">class</div><div class="cv">forward_deployed_engineer</div></div>
-          <div class="cr"><div class="ck">architecture</div><div class="cv">engineering ⊕ research</div></div>
-          <div class="cr"><div class="ck">training_data</div><div class="cv">retail systems · ML consulting · STEM research</div></div>
-          <div class="cr"><div class="ck">optimizer</div><div class="cv">customer-embedded SGD <span class="dim">(stochastic goal descent)</span></div></div>
-          <div class="cr"><div class="ck">languages</div><div class="cv">en · sw <span class="dim">(Swahili)</span></div></div>
-          <div class="cr"><div class="ck">location</div><div class="cv">Nairobi / Nakuru, KE <span class="dim">UTC+3</span></div></div>
-          <div class="cr"><div class="ck">org</div><div class="cv">ByteDec · Dukamath</div></div>
-          <div class="cr"><div class="ck">license</div><div class="cv"><span class="ok">open</span> to FDE & ML roles</div></div>
-        </div>
-        <div style="padding:10px 16px 14px">
-          <div class="mono" style="font-size:11px;color:var(--muted);display:flex;justify-content:space-between"><span>training_loss</span><span class="ok">0.018 ↓ converged</span></div>
-          <svg class="miniloss" viewBox="0 0 240 42" preserveAspectRatio="none">
-            <path d="M0 6 C30 38 60 30 90 24 C120 20 150 22 180 19 C210 17 230 18 240 18" fill="none" stroke="url(#actgrad2)" stroke-width="2"/>
-            <path d="M0 6 C30 38 60 30 90 24 C120 20 150 22 180 19 C210 17 230 18 240 18 L240 42 L0 42 Z" fill="url(#actgrad2)" opacity=".12"/>
-          </svg>
-        </div>
+      <div class="tensor reveal" aria-label="Key numbers">
+        <div class="cell"><span class="num" data-count="150" data-suffix="+">0</span><span class="lbl mono">journal articles, reports &amp; whitepapers authored or co-authored</span></div>
+        <div class="cell"><span class="num" data-count="500" data-suffix="+">0</span><span class="lbl mono">academic essays, reviews &amp; chapters written and edited</span></div>
+        <div class="cell"><span class="num" data-count="30" data-suffix="%">0</span><span class="lbl mono">fewer manuscript revision cycles via technical peer review</span></div>
+        <div class="cell"><span class="num" data-count="3" data-suffix="">0</span><span class="lbl mono">ML domains in production work: NLP · vision · time-series</span></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ============ EXPERIENCE ============ -->
-<section class="mod" id="experience">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div>
-        <span class="sec-tag"><span class="n">02 //</span> training_log</span>
-        <h2 class="sec-title">Experience as <span class="grad">epochs</span></h2>
-      </div>
-      <svg class="actcurve" viewBox="0 0 120 30"><path d="M2 15 C20 2 40 28 60 15 S100 2 118 15"/></svg>
-    </div>
+  <!-- ACTIVATION PLAYGROUND -->
+  <section id="playground" class="sec">
+    <div class="sec-head"><span class="idx mono">02</span><h2>Activation <em>playground</em></h2></div>
+    <p class="sec-sub reveal">Neurons are only interesting because of the non-linearity. Pick a function, drag <span class="mono">x</span>, and watch <span class="mono">f(x)</span> and its gradient <span class="mono">f′(x)</span> move.</p>
 
-    <div class="tl reveal">
-      <div class="tl-item">
-        <div class="node"></div>
-        <div class="tl-epoch"><span class="ep">epoch 04</span> · current weights</div>
-        <div class="tl-role">Forward Deployed Engineer & Founder</div>
-        <div class="tl-org">Dukamath <span class="loc">// Nairobi (Remote)</span></div>
-        <div class="tl-dates">Jun 2023 — Present</div>
-        <ul class="tl-body">
-          <li>Embed with retail customers, then design, build, and deploy cloud-native point-of-sale systems tailored to each business.</li>
-          <li>Lead platform development in <strong>Python</strong> and <strong>SQL</strong>, processing large-scale real-time transaction data.</li>
-          <li>Provision repeatable <strong>GCP</strong> environments for distributed retail networks using <strong>Terraform</strong> (IaC).</li>
-          <li>Ship containerized microservices with <strong>Docker</strong>, automate delivery and scaling on Linux and Bash.</li>
-        </ul>
-        <div class="tl-tags"><span class="t">Python</span><span class="t">SQL</span><span class="t">GCP</span><span class="t">Terraform</span><span class="t">Docker</span><span class="t">Linux/Bash</span><span class="t">Distributed Systems</span></div>
-      </div>
+    <div class="play reveal">
+      <div class="play-ctrl">
+        <div class="tabs mono" id="actTabs" role="tablist"></div>
+        <div class="formula-big mono" id="actFormula"></div>
+        <p class="act-note" id="actNote"></p>
 
-      <div class="tl-item">
-        <div class="node m"></div>
-        <div class="tl-epoch"><span class="ep">epoch 03</span> · fine-tune phase</div>
-        <div class="tl-role">Freelance Machine Learning Consultant</div>
-        <div class="tl-org">Self-Employed <span class="loc">// Nairobi (Hybrid)</span></div>
-        <div class="tl-dates">Jan 2022 — Nov 2024</div>
-        <ul class="tl-body">
-          <li>Delivered ML solutions for e-commerce companies and startups, from scoping to production.</li>
-          <li>Built data pipelines to prepare training data, applying <strong>NLP, computer vision, and time-series analysis</strong>.</li>
-          <li>Embedded with client engineering teams, translating business goals into technical roadmaps.</li>
-        </ul>
-        <div class="tl-tags"><span class="t">NLP</span><span class="t">Computer Vision</span><span class="t">Time-Series</span><span class="t">MLOps</span><span class="t">Python</span><span class="t">Data Pipelines</span></div>
-      </div>
+        <label class="slider mono">
+          <span>x = <b id="xVal">0.00</b></span>
+          <input type="range" id="xSlider" min="-4" max="4" step="0.01" value="0.5">
+        </label>
 
-      <div class="tl-item">
-        <div class="node p"></div>
-        <div class="tl-epoch"><span class="ep">epoch 02</span> · research pretraining</div>
-        <div class="tl-role">Academic Researcher</div>
-        <div class="tl-org">WriteDom <span class="loc">// Remote</span></div>
-        <div class="tl-dates">Nov 2018 — Dec 2022</div>
-        <ul class="tl-body">
-          <li>Authored and co-authored <strong>150+ journal articles, technical reports and whitepapers</strong> in quantitative and STEM disciplines, following IEEE and APA guidelines.</li>
-          <li>Analyzed empirical data with <strong>SPSS, R and Python</strong>; wrote methodology and results chapters.</li>
-          <li>Cut manuscript revision cycles by <strong>30%</strong> through technical peer review.</li>
-        </ul>
-        <div class="tl-tags"><span class="t">SPSS</span><span class="t">R</span><span class="t">Python</span><span class="t">IEEE / APA</span><span class="t">Quantitative Analysis</span></div>
-      </div>
-
-      <div class="tl-item">
-        <div class="node g"></div>
-        <div class="tl-epoch"><span class="ep">epoch 01</span> · initialization</div>
-        <div class="tl-role">Academic Researcher</div>
-        <div class="tl-org">WritersHubUS <span class="loc">// Remote</span></div>
-        <div class="tl-dates">Jun 2015 — Aug 2018</div>
-        <ul class="tl-body">
-          <li>Wrote, edited, and proofread <strong>500+ academic essays, literature reviews, and book chapters</strong>, with copy-editing support for scholars.</li>
-        </ul>
-        <div class="tl-tags"><span class="t">Academic Writing</span><span class="t">Editing</span><span class="t">Proofreading</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-<style>
-/* ---------- SKILLS (weights heatmap) ---------- */
-.legend{display:flex;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;color:var(--muted);margin-bottom:22px;flex-wrap:wrap}
-.legend .bar{height:8px;width:160px;border-radius:4px;background:var(--grad);box-shadow:0 0 10px rgba(0,255,156,.25)}
-.layers{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
-.layer{padding:18px 20px 20px}
-.layer h3{font-family:var(--mono);font-size:13.5px;color:var(--text);display:flex;align-items:center;gap:9px;margin-bottom:3px}
-.layer h3 .ix{color:var(--cyan);font-weight:600}
-.layer h3 .ic{width:16px;height:16px;color:var(--purple)}
-.layer .act-note{font-family:var(--mono);font-size:10.8px;color:var(--muted);margin-bottom:15px;letter-spacing:.01em}
-.heatgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(122px,1fr));gap:8px}
-.cell{position:relative;padding:11px 11px 14px;border-radius:8px;border:1px solid var(--border);font-family:var(--mono);font-size:12.3px;color:var(--text);overflow:hidden;background:rgba(4,10,6,.55);transition:transform .15s,border-color .15s,box-shadow .2s}
-.cell:hover{transform:translateY(-2px);border-color:var(--cyan);box-shadow:0 0 14px rgba(57,255,20,.18)}
-.cell .nm{position:relative;z-index:2;line-height:1.2}
-.cell .w{position:absolute;top:7px;right:9px;font-size:9.5px;color:var(--muted);z-index:2}
-.cell .bar{position:absolute;left:0;bottom:0;height:3px;background:var(--grad);z-index:2}
-.cell .tint{position:absolute;inset:0;z-index:1;opacity:.0;background:linear-gradient(135deg,rgba(57,255,20,.5),rgba(170,255,0,.5))}
-</style>
-
-<!-- ============ SKILLS ============ -->
-<section class="mod" id="skills">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div>
-        <span class="sec-tag"><span class="n">03 //</span> parameters</span>
-        <h2 class="sec-title">Skills as a <span class="grad">weight matrix</span></h2>
-      </div>
-      <svg class="actcurve" viewBox="0 0 120 30"><path d="M2 28 L60 28 L60 4 L118 4" /></svg>
-    </div>
-    <p class="sec-sub reveal" style="margin-top:-18px;margin-bottom:8px">Each tile is a learned weight — hue saturation encodes proficiency. Hover any neuron to inspect its value.</p>
-
-    <div class="legend reveal">
-      <span>0.0 latent</span>
-      <span class="bar"></span>
-      <span>1.0 mastered</span>
-    </div>
-
-    <div class="layers">
-      <div class="layer panel reveal">
-        <h3><span class="ix">L1</span> Infrastructure &amp; Cloud</h3>
-        <div class="act-note">// activation = ReLU · ships nothing until provisioned, then full signal</div>
-        <div class="heatgrid">
-          <div class="cell"><span class="w">.90</span><div class="tint" style="opacity:.45"></div><div class="bar" style="width:90%"></div><span class="nm">Linux</span></div>
-          <div class="cell"><span class="w">.88</span><div class="tint" style="opacity:.42"></div><div class="bar" style="width:88%"></div><span class="nm">Docker</span></div>
-          <div class="cell"><span class="w">.85</span><div class="tint" style="opacity:.38"></div><div class="bar" style="width:85%"></div><span class="nm">Bash</span></div>
-          <div class="cell"><span class="w">.82</span><div class="tint" style="opacity:.34"></div><div class="bar" style="width:82%"></div><span class="nm">Terraform / IaC</span></div>
-          <div class="cell"><span class="w">.78</span><div class="tint" style="opacity:.28"></div><div class="bar" style="width:78%"></div><span class="nm">AWS</span></div>
-          <div class="cell"><span class="w">.72</span><div class="tint" style="opacity:.22"></div><div class="bar" style="width:72%"></div><span class="nm">Azure</span></div>
+        <div class="readouts mono">
+          <div><span class="k">f(x)</span><span class="v c1" id="fOut">—</span></div>
+          <div><span class="k">f′(x)</span><span class="v c2" id="dOut">—</span></div>
         </div>
       </div>
-
-      <div class="layer panel reveal">
-        <h3><span class="ix">L2</span> Software Engineering &amp; Data</h3>
-        <div class="act-note">// activation = GELU · smooth, non-zero everywhere, always a little gradient</div>
-        <div class="heatgrid">
-          <div class="cell"><span class="w">.96</span><div class="tint" style="opacity:.52"></div><div class="bar" style="width:96%"></div><span class="nm">Python</span></div>
-          <div class="cell"><span class="w">.92</span><div class="tint" style="opacity:.48"></div><div class="bar" style="width:92%"></div><span class="nm">SQL</span></div>
-          <div class="cell"><span class="w">.86</span><div class="tint" style="opacity:.40"></div><div class="bar" style="width:86%"></div><span class="nm">Data Engineering</span></div>
-          <div class="cell"><span class="w">.85</span><div class="tint" style="opacity:.38"></div><div class="bar" style="width:85%"></div><span class="nm">HTML / CSS</span></div>
-          <div class="cell"><span class="w">.82</span><div class="tint" style="opacity:.34"></div><div class="bar" style="width:82%"></div><span class="nm">Web Scraping</span></div>
-          <div class="cell"><span class="w">.80</span><div class="tint" style="opacity:.30"></div><div class="bar" style="width:80%"></div><span class="nm">JavaScript</span></div>
-          <div class="cell"><span class="w">.80</span><div class="tint" style="opacity:.30"></div><div class="bar" style="width:80%"></div><span class="nm">Distributed Sys.</span></div>
-          <div class="cell"><span class="w">.68</span><div class="tint" style="opacity:.18"></div><div class="bar" style="width:68%"></div><span class="nm">Dart</span></div>
-        </div>
-      </div>
-
-      <div class="layer panel reveal">
-        <h3><span class="ix">L3</span> Artificial Intelligence</h3>
-        <div class="act-note">// activation = Swish · x · σ(x) — self-gated, the core of the portfolio</div>
-        <div class="heatgrid">
-          <div class="cell"><span class="w">.94</span><div class="tint" style="opacity:.50"></div><div class="bar" style="width:94%"></div><span class="nm">Machine Learning</span></div>
-          <div class="cell"><span class="w">.92</span><div class="tint" style="opacity:.48"></div><div class="bar" style="width:92%"></div><span class="nm">AI (general)</span></div>
-          <div class="cell"><span class="w">.90</span><div class="tint" style="opacity:.44"></div><div class="bar" style="width:90%"></div><span class="nm">NLP</span></div>
-          <div class="cell"><span class="w">.90</span><div class="tint" style="opacity:.44"></div><div class="bar" style="width:90%"></div><span class="nm">Timeseries Analysis</span></div>
-          <div class="cell"><span class="w">.88</span><div class="tint" style="opacity:.40"></div><div class="bar" style="width:88%"></div><span class="nm">Computer Vision</span></div>
-          <div class="cell"><span class="w">.86</span><div class="tint" style="opacity:.36"></div><div class="bar" style="width:86%"></div><span class="nm">MLOps</span></div>
-          <div class="cell"><span class="w">.80</span><div class="tint" style="opacity:.28"></div><div class="bar" style="width:80%"></div><span class="nm">Data Acquisition</span></div>
-          <div class="cell"><span class="w">.78</span><div class="tint" style="opacity:.24"></div><div class="bar" style="width:78%"></div><span class="nm">Text to Speech</span></div>
-          <div class="cell"><span class="w">.76</span><div class="tint" style="opacity:.20"></div><div class="bar" style="width:76%"></div><span class="nm">Audio Processing</span></div>
-        </div>
-      </div>
-
-      <div class="layer panel reveal">
-        <h3><span class="ix">L4</span> Tools &amp; Creative</h3>
-        <div class="act-note">// activation = Leaky ReLU · the creative side never fully zeros out</div>
-        <div class="heatgrid">
-          <div class="cell"><span class="w">.84</span><div class="tint" style="opacity:.34"></div><div class="bar" style="width:84%"></div><span class="nm">Graphic Design</span></div>
-          <div class="cell"><span class="w">.82</span><div class="tint" style="opacity:.30"></div><div class="bar" style="width:82%"></div><span class="nm">Photoshop</span></div>
-          <div class="cell"><span class="w">.78</span><div class="tint" style="opacity:.26"></div><div class="bar" style="width:78%"></div><span class="nm">Illustrator</span></div>
-          <div class="cell"><span class="w">.76</span><div class="tint" style="opacity:.22"></div><div class="bar" style="width:76%"></div><span class="nm">Premiere Pro</span></div>
-          <div class="cell"><span class="w">.74</span><div class="tint" style="opacity:.20"></div><div class="bar" style="width:74%"></div><span class="nm">After Effects</span></div>
-          <div class="cell"><span class="w">.70</span><div class="tint" style="opacity:.16"></div><div class="bar" style="width:70%"></div><span class="nm">Blender</span></div>
-        </div>
+      <div class="plot-wrap">
+        <canvas id="actCanvas" width="760" height="460"></canvas>
+        <div class="legend mono"><span class="c1">━ f(x)</span><span class="c2">╌ f′(x)</span></div>
       </div>
     </div>
-  </div>
-</section>
-<style>
-/* ---------- PROJECTS (model zoo / experiment cards) ---------- */
-.projgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
-.proj{padding:18px 20px;display:flex;flex-direction:column;gap:12px;min-width:0;transition:transform .15s,border-color .15s,box-shadow .25s}
-.proj:hover{transform:translateY(-3px);border-color:rgba(0,255,156,.45);box-shadow:0 10px 34px rgba(0,0,0,.45),0 0 20px rgba(0,255,156,.13)}
-.pj-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
-.pj-tag{font-family:var(--mono);font-size:10.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:6px;border:1px solid var(--border)}
-.pj-tag.nlp{color:var(--cyan);background:rgba(57,255,20,.10);border-color:rgba(57,255,20,.22)}
-.pj-tag.cv{color:var(--purple);background:rgba(0,255,156,.10);border-color:rgba(0,255,156,.22)}
-.pj-tag.ts{color:var(--green);background:rgba(57,255,20,.10);border-color:rgba(57,255,20,.22)}
-.pj-tag.rl{color:var(--magenta);background:rgba(170,255,0,.10);border-color:rgba(170,255,0,.22)}
-.pj-tag.ag{color:var(--amber);background:rgba(212,255,0,.10);border-color:rgba(212,255,0,.22)}
-.pj-tag.pred{color:var(--teal);background:rgba(0,204,102,.10);border-color:rgba(0,204,102,.22)}
-.pj-tag.dl{color:var(--purple);background:rgba(0,255,156,.10);border-color:rgba(0,255,156,.22)}
-.pj-id{font-family:var(--mono);font-size:10.5px;color:var(--muted);letter-spacing:.05em}
-.pj-title{font-size:16.5px;font-weight:700;color:var(--text);line-height:1.2}
-.pj-arch{font-family:var(--mono);font-size:11.4px;color:var(--text-dim);padding:10px 12px;border-radius:8px;background:rgba(2,5,3,.6);border:1px dashed var(--border);overflow-x:auto;white-space:nowrap;min-width:0;line-height:1.7}
-.pj-arch .l{color:var(--cyan);background:rgba(57,255,20,.08);padding:1px 6px;border-radius:4px;border:1px solid rgba(57,255,20,.16)}
-.pj-arch .l2{color:var(--purple);background:rgba(0,255,156,.08);padding:1px 6px;border-radius:4px;border:1px solid rgba(0,255,156,.16)}
-.pj-arch .l3{color:var(--magenta);background:rgba(170,255,0,.08);padding:1px 6px;border-radius:4px;border:1px solid rgba(170,255,0,.16)}
-.pj-arch .arrow{color:var(--muted);margin:0 3px}
-.pj-desc{font-size:13.5px;color:var(--text-dim);line-height:1.58}
-.pj-chips{display:flex;flex-wrap:wrap;gap:6px}
-.pj-chips .c{font-family:var(--mono);font-size:10.5px;color:var(--text-dim);padding:2px 7px;border-radius:5px;border:1px solid var(--border);background:rgba(255,255,255,.02)}
-.pj-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:4px;padding-top:12px;border-top:1px solid var(--border-soft)}
-.pj-link{font-family:var(--mono);font-size:12.5px;color:var(--cyan);text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:color .2s}
-.pj-link:hover{color:var(--magenta)}
-.pj-spec{font-family:var(--mono);font-size:11px;color:var(--muted)}
-</style>
+  </section>
 
-<!-- ============ PROJECTS ============ -->
-<section class="mod" id="projects">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div>
-        <span class="sec-tag"><span class="n">04 //</span> model_zoo</span>
-        <h2 class="sec-title">Experiments &amp; <span class="grad">model builds</span></h2>
-      </div>
-      <svg class="actcurve" viewBox="0 0 120 30"><path d="M2 4 C30 4 30 26 60 26 S90 4 118 4"/></svg>
-    </div>
-    <p class="sec-sub reveal" style="margin-top:-18px;margin-bottom:10px">Selected models — from a Swahili language model trained from scratch to a DOM-reading web agent. Each card shows its architecture pipeline.</p>
+  <!-- EXPERIENCE -->
+  <section id="layers" class="sec">
+    <div class="sec-head"><span class="idx mono">03</span><h2>Hidden <em>layers</em></h2></div>
+    <p class="sec-sub reveal">Experience, read as a network: each role is a layer that transformed the one before it. Latest first.</p>
 
-    <div class="projgrid">
-
-      <article class="proj panel reveal">
-        <div class="pj-top"><span class="pj-tag nlp">NLP</span><span class="pj-id">exp_01 · dukamath</span></div>
-        <h3 class="pj-title">Swahili GPT</h3>
-        <div class="pj-arch"><span class="l">chars</span><span class="arrow">→</span><span class="l2">embed</span><span class="arrow">→</span><span class="l2">[ transformer × N ]</span><span class="arrow">→</span><span class="l2">LM head</span><span class="arrow">→</span><span class="l3">text(sw)</span></div>
-        <p class="pj-desc">Trained a character-level small language model for Swahili from scratch in PyTorch — tokenizer, dataset, training loop and text generation, all hand-built end to end.</p>
-        <div class="pj-chips"><span class="c">PyTorch</span><span class="c">NLP</span><span class="c">LLM</span><span class="c">from-scratch</span></div>
-        <div class="pj-foot"><span class="pj-spec">char-level · 2026</span><a class="pj-link" href="https://github.com/lewinskie254" target="_blank" rel="noopener">github ↗</a></div>
+    <div class="stack-layers">
+      <article class="layer reveal">
+        <div class="node"><span></span></div>
+        <div class="card">
+          <div class="meta mono"><span class="tag">output layer</span><span>Jun 2023 – Present</span></div>
+          <h3>Forward Deployed Engineer &amp; Founder <small>Dukamath · Nairobi (Remote)</small></h3>
+          <ul>
+            <li>Embed with retail customers, then design, build and deploy cloud-native point-of-sale systems tailored to each business.</li>
+            <li>Lead development of the platform in Python and SQL, processing large-scale real-time transaction data.</li>
+            <li>Provision repeatable GCP environments for distributed retail networks using Terraform (IaC).</li>
+            <li>Ship containerized microservices with Docker, automate delivery and scaling with Linux and Bash, and build custom features that fit each customer's workflow.</li>
+          </ul>
+        </div>
       </article>
 
-      <article class="proj panel reveal">
-        <div class="pj-top"><span class="pj-tag ts">Time-Series + RL</span><span class="pj-id">exp_02 · dukamath</span></div>
-        <h3 class="pj-title">Stock Market Prediction</h3>
-        <div class="pj-arch"><span class="l">prices</span><span class="arrow">→</span><span class="l2">ARIMA</span><span class="arrow">→</span><span class="l2">Neural Net</span><span class="arrow">→</span><span class="l3">RL policy</span><span class="arrow">→</span><span class="l3">{ buy · hold · sell }</span></div>
-        <p class="pj-desc">A time-series system that predicts stock-market trends, paired with a reinforcement-learning component that suggests whether to buy, hold or sell.</p>
-        <div class="pj-chips"><span class="c">ARIMA</span><span class="c">Neural Nets</span><span class="c">Reinforcement Learning</span><span class="c">Time-Series</span></div>
-        <div class="pj-foot"><span class="pj-spec">dukamath · 2026</span><a class="pj-link" href="https://github.com/lewinskie254/stock-market-prediction" target="_blank" rel="noopener">github ↗</a></div>
-      </article>
-
-      <article class="proj panel reveal">
-        <div class="pj-top"><span class="pj-tag ts">Time-Series</span><span class="pj-id">exp_03 · pinned</span></div>
-        <h3 class="pj-title">Timeseries-Analysis · TF + StatsModels</h3>
-        <div class="pj-arch"><span class="l">series</span><span class="arrow">→</span><span class="l2">{ AR · MA · ARIMA · SARIMA · VAR }</span><span class="arrow">∥</span><span class="l2">LSTM</span><span class="arrow">→</span><span class="l3">forecast</span></div>
-        <p class="pj-desc">Comprehensive time-series forecasting repository pairing classical statistical models (AR, MA, ARMA, ARIMA, SARIMA, SARIMAX, VAR) with deep-learning approaches such as LSTMs.</p>
-        <div class="pj-chips"><span class="c">TensorFlow</span><span class="c">StatsModels</span><span class="c">LSTM</span><span class="c">ARIMA</span></div>
-        <div class="pj-foot"><span class="pj-spec">jupyter · pinned</span><a class="pj-link" href="https://github.com/lewinskie254/Timeseries-Analysis-Tensorflow-StatsModels" target="_blank" rel="noopener">github ↗</a></div>
-      </article>
-
-      <article class="proj panel reveal">
-        <div class="pj-top"><span class="pj-tag cv">Computer Vision</span><span class="pj-id">exp_04 · pinned</span></div>
-        <h3 class="pj-title">Remote-Sensing · U-Net Segmentation</h3>
-        <div class="pj-arch"><span class="l">256²</span><span class="arrow">→</span><span class="l2">U-Net( enc → bottleneck → dec )</span><span class="arrow">→</span><span class="l3">mask</span><span class="arrow">→</span><span class="l">128²</span></div>
-        <p class="pj-desc">U-Net semantic segmentation in PyTorch for building detection from satellite imagery — training on 256×256 patches and running 128×128 inference patches.</p>
-        <div class="pj-chips"><span class="c">PyTorch</span><span class="c">U-Net</span><span class="c">Segmentation</span><span class="c">Remote Sensing</span></div>
-        <div class="pj-foot"><span class="pj-spec">jupyter · pinned</span><a class="pj-link" href="https://github.com/lewinskie254/Remote-Sensing" target="_blank" rel="noopener">github ↗</a></div>
-      </article>
-
-      <article class="proj panel reveal">
-        <div class="pj-top"><span class="pj-tag ag">Agents</span><span class="pj-id">exp_05 · pinned</span></div>
-        <h3 class="pj-title">Autonomous AI Web-Browsing Agent</h3>
-        <div class="pj-arch"><span class="l">DOM</span><span class="arrow">→</span><span class="l2">Gemini</span><span class="arrow">→</span><span class="l3">action</span><span class="arrow">→</span><span class="l2">Playwright</span><span class="arrow">(+ vision)</span></div>
-        <p class="pj-desc">Autonomous web agent that browses real sites using only the DOM (no fixed selectors), with an optional hybrid mode that adds vision when it's unsure. Built with Playwright, Gemini and PostgreSQL.</p>
-        <div class="pj-chips"><span class="c">Playwright</span><span class="c">Gemini</span><span class="c">PostgreSQL</span><span class="c">Agents</span></div>
-        <div class="pj-foot"><span class="pj-spec">python · pinned</span><a class="pj-link" href="https://github.com/lewinskie254/Autonomous-AI-Web-Browsing-Agent" target="_blank" rel="noopener">github ↗</a></div>
-      </article>
-
-      <article class="proj panel reveal">
-        <div class="pj-top"><span class="pj-tag pred">Prediction</span><span class="pj-id">exp_06 · pinned</span></div>
-        <h3 class="pj-title">EPL Match-Outcome Predictor</h3>
-        <div class="pj-arch"><span class="l">{ home · away · date }</span><span class="arrow">→</span><span class="l2">model</span><span class="arrow">→</span><span class="l3">P( home win ) %</span></div>
-        <p class="pj-desc">English Premier League predictions to help people beat betting apps. The user supplies the home team, away team and match date; the model returns the percentage likelihood of the home team winning.</p>
-        <div class="pj-chips"><span class="c">Classification</span><span class="c">Feature Eng.</span><span class="c">Jupyter</span></div>
-        <div class="pj-foot"><span class="pj-spec">jupyter · pinned</span><a class="pj-link" href="https://github.com/lewinskie254/EPL-Match-Outcome-Predictor" target="_blank" rel="noopener">github ↗</a></div>
-      </article>
-
-      <article class="proj panel reveal">
-        <div class="pj-top"><span class="pj-tag rl">Reinforcement Learning</span><span class="pj-id">exp_07 · pinned</span></div>
-        <h3 class="pj-title">Snake · RL Agent</h3>
-        <div class="pj-arch"><span class="l">state</span><span class="arrow">→</span><span class="l2">DQN( + A* · MCTS · Hamiltonian · imitation )</span><span class="arrow">→</span><span class="l3">action</span></div>
-        <p class="pj-desc">A reinforcement-learning Snake agent built with PyTorch, combining Deep Q-Learning with A* pathfinding, Monte Carlo Tree Search, Hamiltonian cycles and imitation learning to improve gameplay.</p>
-        <div class="pj-chips"><span class="c">PyTorch</span><span class="c">Deep Q-Learning</span><span class="c">MCTS</span><span class="c">A*</span></div>
-        <div class="pj-foot"><span class="pj-spec">python · pinned</span><a class="pj-link" href="https://github.com/lewinskie254/snake-reinforcement-learning-agent" target="_blank" rel="noopener">github ↗</a></div>
-      </article>
-
-      <article class="proj panel reveal">
-        <div class="pj-top"><span class="pj-tag dl">Deep Learning</span><span class="pj-id">exp_08 · pinned</span></div>
-        <h3 class="pj-title">ConvNets · from scratch in NumPy</h3>
-        <div class="pj-arch"><span class="l">input</span><span class="arrow">→</span><span class="l2">conv</span><span class="arrow">→</span><span class="l2">pool</span><span class="arrow">→</span><span class="l3">backprop</span><span class="arrow">→</span><span class="l3">SGD</span></div>
-        <p class="pj-desc">A convolutional neural network implemented from scratch using NumPy — to truly understand convolution, pooling, backpropagation and gradient descent without any deep-learning framework.</p>
-        <div class="pj-chips"><span class="c">NumPy</span><span class="c">CNN</span><span class="c">Backprop</span><span class="c">from-scratch</span></div>
-        <div class="pj-foot"><span class="pj-spec">jupyter · pinned</span><a class="pj-link" href="https://github.com/lewinskie254/convnets" target="_blank" rel="noopener">github ↗</a></div>
-      </article>
-
-    </div>
-  </div>
-</section>
-<style>
-/* ---------- ACTIVATION LAB ---------- */
-.lab-grid{display:grid;grid-template-columns:minmax(0,0.82fr) minmax(0,1.18fr);gap:20px;align-items:stretch}
-.lab-ctrl{padding:18px 20px;display:flex;flex-direction:column;gap:15px;min-width:0}
-.lab-ctrl .lh{font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:-4px}
-.lab-btns{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.lab-btn{font-family:var(--mono);font-size:12px;padding:9px 11px;border-radius:8px;border:1px solid var(--border);background:rgba(4,10,6,.5);color:var(--text-dim);cursor:pointer;transition:border-color .18s,color .18s,background .18s;text-align:left;display:flex;align-items:center;gap:7px}
-.lab-btn .d{width:6px;height:6px;border-radius:50%;background:var(--muted);flex-shrink:0}
-.lab-btn:hover{border-color:var(--cyan);color:var(--text)}
-.lab-btn:hover .d{background:var(--cyan)}
-.lab-btn.active{background:var(--grad);color:#000000;border-color:transparent;font-weight:600;box-shadow:0 0 16px rgba(0,255,156,.3)}
-.lab-btn.active .d{background:#000000}
-.formula{padding:16px 14px;border-radius:10px;border:1px solid var(--border);background:rgba(2,5,3,.6);text-align:center;min-height:78px;display:grid;place-items:center;overflow-x:auto}
-.formula .eq{font-family:var(--mono);font-size:15px;color:var(--text);line-height:1.6;white-space:nowrap}
-.formula .frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;margin:0 3px}
-.formula .frac .top{border-bottom:1.3px solid var(--text-dim);padding:0 7px 1px}
-.formula .frac .bot{padding:1px 7px 0}
-.formula sup{font-size:.7em;vertical-align:super;line-height:0}
-.formula sub{font-size:.7em;vertical-align:sub;line-height:0}
-.formula .gk{color:var(--cyan)}
-.formula .op{color:var(--text-dim);margin:0 3px}
-.formula .mag{color:var(--purple)}
-.lab-note{font-size:13px;color:var(--text-dim);line-height:1.55}
-.lab-note b{color:var(--text)}
-.lab-where{font-family:var(--mono);font-size:11px;color:var(--cyan);border-top:1px dashed var(--border);padding-top:11px}
-.lab-where .lab{color:var(--muted)}
-.lab-plot{padding:16px;display:flex;flex-direction:column;gap:10px;min-height:360px;min-width:0}
-.plot-wrap{position:relative;flex:1;min-height:280px}
-#actcanvas{width:100%;height:100%;display:block;border-radius:8px;background:rgba(2,5,3,.5);cursor:crosshair;touch-action:none}
-.plot-readout{position:absolute;top:8px;left:10px;font-family:var(--mono);font-size:11px;color:var(--text);background:rgba(2,5,3,.8);border:1px solid var(--border);border-radius:6px;padding:4px 8px;pointer-events:none;opacity:0;transition:opacity .15s;white-space:nowrap}
-.plot-readout.show{opacity:1}
-.plot-readout .vx{color:var(--muted)}
-.plot-legend{display:flex;gap:18px;font-family:var(--mono);font-size:11px;color:var(--muted);flex-wrap:wrap}
-.plot-legend .sw{display:inline-block;width:18px;height:3px;border-radius:2px;vertical-align:middle;margin-right:6px}
-.plot-legend .sw.dash{border-top:2px dashed var(--teal);height:0;background:none;width:18px}
-.lab-foot{font-family:var(--mono);font-size:10.5px;color:var(--muted);text-align:center;margin-top:10px}
-</style>
-
-<!-- ============ ACTIVATION LAB ============ -->
-<section class="mod" id="lab">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div>
-        <span class="sec-tag"><span class="n">05 //</span> activation_lab · interactive</span>
-        <h2 class="sec-title">Pick an <span class="grad">activation function</span></h2>
-      </div>
-      <svg class="actcurve" viewBox="0 0 120 30"><path d="M2 28 Q30 28 38 4 Q46 28 70 4 Q90 28 118 4"/></svg>
-    </div>
-    <p class="sec-sub reveal" style="margin-top:-18px;margin-bottom:10px">The shape that decides whether a neuron fires. Switch functions to plot f(x) and its derivative f'(x) — hover the canvas to inspect any point.</p>
-
-    <div class="lab-grid reveal">
-      <div class="panel lab-ctrl">
-        <div class="lh">// select activation</div>
-        <div class="lab-btns" id="actbtns">
-          <button class="lab-btn active" data-fn="sigmoid"><span class="d"></span>sigmoid</button>
-          <button class="lab-btn" data-fn="tanh"><span class="d"></span>tanh</button>
-          <button class="lab-btn" data-fn="relu"><span class="d"></span>ReLU</button>
-          <button class="lab-btn" data-fn="leaky"><span class="d"></span>Leaky ReLU</button>
-          <button class="lab-btn" data-fn="gelu"><span class="d"></span>GELU</button>
-          <button class="lab-btn" data-fn="swish"><span class="d"></span>Swish / SiLU</button>
-          <button class="lab-btn" data-fn="elu"><span class="d"></span>ELU</button>
-          <button class="lab-btn" data-fn="softplus"><span class="d"></span>Softplus</button>
+      <article class="layer reveal">
+        <div class="node"><span></span></div>
+        <div class="card">
+          <div class="meta mono"><span class="tag">hidden · 3</span><span>Jan 2022 – Nov 2024</span></div>
+          <h3>Freelance Machine Learning Consultant <small>Self-employed · Nairobi (Hybrid)</small></h3>
+          <ul>
+            <li>Delivered ML solutions for e-commerce companies and startups, from scoping to production.</li>
+            <li>Built data pipelines to prepare training data, applying NLP, computer vision and time-series analysis.</li>
+            <li>Embedded with client engineering teams, translating business goals into technical roadmaps.</li>
+          </ul>
         </div>
+      </article>
 
-        <div class="lh">// definition</div>
-        <div class="formula"><span class="eq" id="actformula">σ(x) <span class="op">=</span> <span class="frac"><span class="top">1</span><span class="bot">1 + e<sup>−x</sup></span></span></span></div>
-
-        <div class="lab-note" id="actnote"><b>Sigmoid</b> squashes any input into (0,1) — the original neural activation. Smooth and differentiable, but it saturates at the tails, which is exactly where vanishing gradients haunt deep networks.</div>
-
-        <div class="lab-where"><span class="lab">used in →</span> <span id="actwhere">output layers · binary classification gates</span></div>
-      </div>
-
-      <div class="panel lab-plot">
-        <div class="plot-wrap">
-          <canvas id="actcanvas"></canvas>
-          <div class="plot-readout" id="actreadout"><span class="vx">x=</span> <span id="rx">0.00</span> &nbsp;<span class="vx">f=</span> <span id="rf">0.00</span> &nbsp;<span class="vx">f'=</span> <span id="rdf">0.00</span></div>
+      <article class="layer reveal">
+        <div class="node"><span></span></div>
+        <div class="card">
+          <div class="meta mono"><span class="tag">hidden · 2</span><span>Nov 2018 – Dec 2022</span></div>
+          <h3>Academic Researcher <small>WriteDom · Remote</small></h3>
+          <ul>
+            <li>Authored and co-authored 150+ journal articles, technical reports and whitepapers in quantitative and STEM disciplines, following IEEE and APA guidelines.</li>
+            <li>Analyzed empirical data with SPSS, R and Python and wrote methodology and results chapters; cut manuscript revision cycles by 30% through technical peer review.</li>
+          </ul>
         </div>
-        <div class="plot-legend">
-          <span><span class="sw" style="background:var(--grad)"></span>f(x)</span>
-          <span><span class="sw dash"></span>f'(x) derivative</span>
-          <span style="margin-left:auto">domain x ∈ [−6, 6]</span>
+      </article>
+
+      <article class="layer reveal">
+        <div class="node"><span></span></div>
+        <div class="card">
+          <div class="meta mono"><span class="tag">hidden · 1</span><span>Jun 2015 – Aug 2018</span></div>
+          <h3>Academic Researcher <small>WritersHubUS · Remote</small></h3>
+          <ul>
+            <li>Wrote, edited and proofread 500+ academic essays, literature reviews and book chapters, with copy-editing support for scholars.</li>
+          </ul>
         </div>
-      </div>
-    </div>
-    <div class="lab-foot reveal">// all curves computed live in your browser — no framework, just canvas + math</div>
-  </div>
-</section>
-<style>
-/* ---------- EDUCATION & RESEARCH ---------- */
-.ed-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px}
-.ed-card{padding:20px 22px}
-.ed-card h3{font-family:var(--mono);font-size:12px;color:var(--cyan);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
-.deg{font-size:19px;font-weight:700;color:var(--text);line-height:1.22}
-.sch{font-family:var(--mono);font-size:13px;color:var(--purple);margin-top:4px}
-.dts{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:3px;margin-bottom:14px}
-.ed-note{font-size:13.5px;color:var(--text-dim);line-height:1.6}
-.rstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
-.rstat{padding:12px 8px;border:1px solid var(--border);border-radius:9px;background:rgba(2,5,3,.5);text-align:center}
-.rstat .n{font-family:var(--mono);font-size:1.35rem;font-weight:700;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1}
-.rstat .l{font-family:var(--mono);font-size:9.5px;color:var(--muted);margin-top:5px;letter-spacing:.04em}
-.rlist{font-size:13px;color:var(--text-dim);line-height:1.6}
-.rlist li{list-style:none;position:relative;padding-left:16px;margin-bottom:6px}
-.rlist li::before{content:"▹";position:absolute;left:0;color:var(--cyan);font-family:var(--mono);font-size:11px}
-.rlist b{color:var(--text)}
-</style>
+      </article>
 
-<!-- ============ EDUCATION & RESEARCH ============ -->
-<section class="mod" id="research">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div>
-        <span class="sec-tag"><span class="n">06 //</span> training_data</span>
-        <h2 class="sec-title">Education &amp; <span class="grad">research corpus</span></h2>
-      </div>
-      <svg class="actcurve" viewBox="0 0 120 30"><path d="M2 15 Q20 2 40 15 T80 15 T118 15"/></svg>
-    </div>
-
-    <div class="ed-grid">
-      <div class="ed-card panel reveal">
-        <h3>// degree</h3>
-        <div class="deg">Bachelor of Science, Strategic Management</div>
-        <div class="sch">Moi University</div>
-        <div class="dts">Jul 2011 — Jul 2015</div>
-        <p class="ed-note">The analytical and management foundation underpinning a self-driven career in machine learning and distributed systems — paired with a decade of applied building, consulting and technical research on top of it.</p>
-      </div>
-
-      <div class="ed-card panel reveal">
-        <h3>// research_corpus</h3>
-        <div class="rstats">
-          <div class="rstat"><div class="n">150+</div><div class="l">publications</div></div>
-          <div class="rstat"><div class="n">500+</div><div class="l">essays &amp; reviews</div></div>
-          <div class="rstat"><div class="n">30%</div><div class="l">faster revisions</div></div>
+      <article class="layer reveal">
+        <div class="node"><span></span></div>
+        <div class="card">
+          <div class="meta mono"><span class="tag">input layer</span><span>Jul 2011 – Jul 2015</span></div>
+          <h3>B.Sc. Strategic Management <small>Moi University</small></h3>
         </div>
-        <ul class="rlist">
-          <li><b>150+ journal articles, technical reports and whitepapers</b> in quantitative and STEM disciplines, following IEEE and APA guidelines.</li>
-          <li>Analyzed empirical data with <b>SPSS, R and Python</b>; wrote methodology and results chapters.</li>
-          <li>Cut manuscript revision cycles by <b>30%</b> through technical peer review.</li>
-          <li>Earlier: <b>500+ academic essays, literature reviews and book chapters</b> with copy-editing support for scholars.</li>
-        </ul>
-      </div>
+      </article>
     </div>
-  </div>
-</section>
-<style>
-/* ---------- CONTACT ---------- */
-.contact-grid{display:grid;grid-template-columns:minmax(0,0.9fr) minmax(0,1.1fr);gap:22px;align-items:start}
-.contact-intro{padding:24px 22px}
-.contact-intro .big{font-size:clamp(1.5rem,3.5vw,2rem);font-weight:800;line-height:1.15;margin-bottom:12px}
-.contact-intro .big .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
-.contact-intro p{color:var(--text-dim);font-size:14.5px;margin-bottom:18px}
-.contact-intro .avail{font-family:var(--mono);font-size:12px;color:var(--green);display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid rgba(57,255,20,.25);border-radius:8px;background:rgba(57,255,20,.06)}
-.contact-intro .avail .d{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:pulse 2s infinite}
-.contact-panel{padding:0;overflow:hidden}
-.termbar{display:flex;align-items:center;gap:10px;padding:11px 16px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--border);font-family:var(--mono);font-size:12px;color:var(--text-dim)}
-.termbar .dots{display:flex;gap:6px}
-.termbar .dots i{width:11px;height:11px;border-radius:50%;display:block}
-.termbar .dots i:nth-child(1){background:#ff3b3b}
-.termbar .dots i:nth-child(2){background:#d4ff00}
-.termbar .dots i:nth-child(3){background:#5dff3a}
-.termbar .name{margin-left:6px}
-.termbody{padding:16px 20px 20px}
-.termbody .pl{font-family:var(--mono);font-size:12.5px;line-height:1.9}
-.termbody .pl .pr{color:var(--magenta)}
-.termbody .pl .cm{color:var(--cyan)}
-.termbody .pl .out{color:var(--text-dim)}
-.channels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:6px}
-.ch{display:flex;align-items:center;gap:12px;padding:11px 13px;border:1px solid var(--border);border-radius:10px;background:rgba(2,5,3,.5);text-decoration:none;color:var(--text);transition:transform .16s,border-color .16s,box-shadow .2s;min-width:0}
-.ch:hover{transform:translateY(-2px);border-color:var(--cyan);box-shadow:0 0 14px rgba(57,255,20,.15)}
-.ch .ic{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;background:rgba(57,255,20,.08);border:1px solid rgba(57,255,20,.16);color:var(--cyan);flex-shrink:0;transition:.2s}
-.ch:hover .ic{color:#000000;background:var(--grad);border-color:transparent}
-.ch .ic svg{width:17px;height:17px}
-.ch .meta{min-width:0;overflow:hidden}
-.ch .lab{font-family:var(--mono);font-size:9.5px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
-.ch .val{font-size:13.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  </section>
 
-/* ---------- FOOTER ---------- */
-.foot{padding:38px 0 30px;border-top:1px solid var(--border-soft);text-align:center;margin-top:30px}
-.foot .floss{display:block;width:180px;height:30px;margin:0 auto 16px}
-.foot .ftxt{font-family:var(--mono);font-size:12px;color:var(--text-dim);margin-bottom:10px}
-.foot .ftxt .grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:600}
-.foot .fsoc{display:flex;justify-content:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
-.foot .fsoc a{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;border:1px solid var(--border);color:var(--text-dim);text-decoration:none;transition:.18s}
-.foot .fsoc a:hover{color:var(--cyan);border-color:var(--cyan);transform:translateY(-2px)}
-.foot .fsoc a svg{width:16px;height:16px}
-.foot .copy{font-family:var(--mono);font-size:11px;color:var(--muted)}
-</style>
+  <!-- PROJECTS -->
+  <section id="projects" class="sec">
+    <div class="sec-head"><span class="idx mono">04</span><h2>Training <em>runs</em></h2></div>
+    <p class="sec-sub reveal">Things I build to learn how models really behave.</p>
 
-<!-- ============ CONTACT ============ -->
-<section class="mod" id="contact">
-  <div class="wrap">
-    <div class="sec-head reveal">
-      <div>
-        <span class="sec-tag"><span class="n">07 //</span> forward_pass → output</span>
-        <h2 class="sec-title">Let's <span class="grad">ship something</span></h2>
-      </div>
-      <svg class="actcurve" viewBox="0 0 120 30"><path d="M2 28 C20 28 30 4 60 4 S100 28 118 4"/></svg>
+    <div class="proj-grid">
+      <article class="proj reveal">
+        <div class="meta mono"><span class="tag">run_02</span><span>Sep 2026 – Nov 2026</span></div>
+        <h3>Swahili GPT</h3>
+        <p>A character-level small language model for Swahili, trained from scratch in PyTorch.</p>
+        <div class="chips mono"><span>PyTorch</span><span>Language models</span><span>NLP</span></div>
+        <div class="loss mono"><code>loss = −Σ log p(c<sub>t</sub> | c<sub>&lt;t</sub>)</code></div>
+      </article>
+
+      <article class="proj reveal">
+        <div class="meta mono"><span class="tag">run_01</span><span>Jun 2026 – Aug 2026</span></div>
+        <h3>Stock Market Prediction</h3>
+        <p>A time-series system using ARIMA and neural networks to predict stock market trends, with a reinforcement learning component that suggests whether to buy, hold or sell.</p>
+        <div class="chips mono"><span>ARIMA</span><span>Neural networks</span><span>Reinforcement learning</span><span>Time-series</span></div>
+        <div class="loss mono"><code>π(a | s) → {buy, hold, sell}</code></div>
+      </article>
     </div>
 
-    <div class="contact-grid">
-      <div class="contact-intro panel reveal">
-        <div class="big">Open to forward-deployed &amp; <span class="grad">machine-learning</span> work.</div>
-        <p>If you need someone who embeds with your team, scopes the problem, builds the pipeline and ships the model — or a cloud-native system to run it on — let's talk. I reply fast and I build faster.</p>
-        <span class="avail"><span class="d"></span> status: online · accepting engagements</span>
+    <div class="gd reveal">
+      <div class="gd-head">
+        <h3>Gradient descent, <em>live</em></h3>
+        <p>Click anywhere on the loss curve to drop the weight there. Crank the learning rate to see it overshoot; add momentum to roll out of the shallow local minimum.</p>
       </div>
-
-      <div class="contact-panel panel reveal">
-        <div class="termbar">
-          <span class="dots"><i></i><i></i><i></i></span>
-          <span class="name">lewis@neural-lab: ~/contact — forward_pass.sh</span>
-        </div>
-        <div class="termbody">
-          <div class="pl"><span class="pr">lewis@neural-lab</span>:~$ ./forward_pass.sh</div>
-          <div class="pl"><span class="out">&gt; initializing output layer…</span></div>
-          <div class="pl"><span class="out">&gt; routing through channels ↓</span></div>
-
-          <div class="channels">
-            <a class="ch" href="mailto:machiulewis@gmail.com">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
-              <span class="meta"><div class="lab">email</div><div class="val">machiulewis@gmail.com</div></span>
-            </a>
-            <a class="ch" href="tel:+254708445839">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
-              <span class="meta"><div class="lab">phone</div><div class="val">+254 708 445 839</div></span>
-            </a>
-            <a class="ch" href="https://github.com/lewinskie254" target="_blank" rel="noopener">
-              <span class="ic"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></span>
-              <span class="meta"><div class="lab">github</div><div class="val">lewinskie254</div></span>
-            </a>
-            <a class="ch" href="https://www.linkedin.com/in/lewinskie254" target="_blank" rel="noopener">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></span>
-              <span class="meta"><div class="lab">linkedin</div><div class="val">in/lewinskie254</div></span>
-            </a>
-            <a class="ch" href="https://www.youtube.com/@lewinskie254" target="_blank" rel="noopener">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3 26 26 0 0 0 1 12c0 1.6 0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM10 15V9l5 3z"/></svg></span>
-              <span class="meta"><div class="lab">youtube</div><div class="val">@lewinskie254</div></span>
-            </a>
-            <a class="ch" href="https://x.com/lewinskie254" target="_blank" rel="noopener">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.5 8.6L23 22h-6.8l-5.3-7-6.1 7H1.7l8-9.2L1 2h6.9l4.8 6.4L18.9 2zm-1.2 18h1.9L7.4 4H5.4l12.3 16z"/></svg></span>
-              <span class="meta"><div class="lab">x / twitter</div><div class="val">@lewinskie254</div></span>
-            </a>
-            <a class="ch" href="https://medium.com/@lewinskie254" target="_blank" rel="noopener">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 2h20v20H2z" opacity="0"/><path d="M22 0H2C.9 0 0 .9 0 2v20c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2zM7.4 18.4H4.2V8.9h3.2v9.5zM5.8 7.6a1.86 1.86 0 1 1 0-3.72 1.86 1.86 0 0 1 0 3.72zM20 18.4h-3.2v-5c0-1.2-.02-2.74-1.67-2.74-1.67 0-1.93 1.3-1.93 2.65v5.09H10V8.9h3.07v1.4h.04c.43-.8 1.47-1.67 3.03-1.67 3.24 0 3.84 2.13 3.84 4.9v4.87z"/></svg></span>
-              <span class="meta"><div class="lab">medium</div><div class="val">@lewinskie254</div></span>
-            </a>
-            <a class="ch" href="https://www.facebook.com/lewinsky254" target="_blank" rel="noopener">
-              <span class="ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12a12 12 0 1 0-13.9 11.9v-8.4H7.1V12h3V9.4c0-3 1.8-4.6 4.5-4.6 1.3 0 2.7.2 2.7.2v3h-1.5c-1.5 0-2 .9-2 1.9V12h3.3l-.5 3.5h-2.8v8.4A12 12 0 0 0 24 12z"/></svg></span>
-              <span class="meta"><div class="lab">facebook</div><div class="val">lewinsky254</div></span>
-            </a>
+      <div class="gd-body">
+        <canvas id="gdCanvas" width="900" height="380"></canvas>
+        <div class="gd-ctrl mono">
+          <label>learning rate η = <b id="lrVal">0.050</b>
+            <input type="range" id="lr" min="0.005" max="0.9" step="0.005" value="0.05">
+          </label>
+          <label class="check"><input type="checkbox" id="mom"> momentum (β = 0.9)</label>
+          <div class="gd-read">
+            <div><span class="k">step</span><b id="gdStep">0</b></div>
+            <div><span class="k">w</span><b id="gdW">0</b></div>
+            <div><span class="k">L(w)</span><b id="gdL">0</b></div>
           </div>
+          <button class="btn mono" id="gdReset">↻ reset at w = 3.5</button>
+          <div class="gd-rule">w ← w − η·∇L(w)</div>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="foot">
-      <svg class="floss" viewBox="0 0 180 30" preserveAspectRatio="none">
-        <path d="M0 4 C30 26 60 22 90 16 C120 12 150 14 180 12" fill="none" stroke="url(#actgrad)" stroke-width="2"/>
-      </svg>
-      <div class="ftxt">Built from scratch — like a neural net in <span class="grad">NumPy</span>. No frameworks, no build step.</div>
-      <div class="fsoc">
-        <a href="https://github.com/lewinskie254" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38v-1.34c-2.22.48-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.81.06 1.23.83 1.23.83.72 1.23 1.88.87 2.34.66.07-.52.28-.87.5-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 4 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48v2.2c0 .21.15.46.55.38A8 8 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg></a>
-        <a href="https://www.linkedin.com/in/lewinskie254" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0z"/></svg></a>
-        <a href="https://www.youtube.com/@lewinskie254" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3 26 26 0 0 0 1 12c0 1.6 0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM10 15V9l5 3z"/></svg></a>
-        <a href="https://x.com/lewinskie254" target="_blank" rel="noopener" aria-label="X"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.5 8.6L23 22h-6.8l-5.3-7-6.1 7H1.7l8-9.2L1 2h6.9l4.8 6.4L18.9 2zm-1.2 18h1.9L7.4 4H5.4l12.3 16z"/></svg></a>
-        <a href="https://medium.com/@lewinskie254" target="_blank" rel="noopener" aria-label="Medium"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 0H2C.9 0 0 .9 0 2v20c0 1.1.9 2 2 2h20c1.1 0 2-.9 2-2V2c0-1.1-.9-2-2-2zM7.4 18.4H4.2V8.9h3.2v9.5zM5.8 7.6a1.86 1.86 0 1 1 0-3.72 1.86 1.86 0 0 1 0 3.72zM20 18.4h-3.2v-5c0-1.2-.02-2.74-1.67-2.74-1.67 0-1.93 1.3-1.93 2.65v5.09H10V8.9h3.07v1.4h.04c.43-.8 1.47-1.67 3.03-1.67 3.24 0 3.84 2.13 3.84 4.9v4.87z"/></svg></a>
+  <!-- STACK -->
+  <section id="stack" class="sec">
+    <div class="sec-head"><span class="idx mono">05</span><h2>Weight <em>matrix</em></h2></div>
+    <p class="sec-sub reveal">The tools I reach for. Hover a row to light up its neurons.</p>
+
+    <div class="matrix">
+      <div class="row reveal">
+        <div class="row-h mono">Infrastructure<br>&amp; Cloud</div>
+        <div class="chips big mono"><span>GCP</span><span>AWS</span><span>Azure</span><span>Terraform</span><span>Infrastructure as Code</span><span>Docker</span><span>Linux</span><span>Bash</span></div>
       </div>
-      <div class="copy">© 2026 Lewis Machiu · Nairobi / Nakuru, Kenya · <span style="color:var(--magenta)">ML is Life</span></div>
+      <div class="row reveal">
+        <div class="row-h mono">Software<br>&amp; Data</div>
+        <div class="chips big mono"><span>Python</span><span>SQL</span><span>JavaScript</span><span>Dart</span><span>HTML/CSS</span><span>Web Scraping</span><span>Data Engineering</span><span>Distributed Systems</span></div>
+      </div>
+      <div class="row reveal">
+        <div class="row-h mono">Artificial<br>Intelligence</div>
+        <div class="chips big mono"><span>PyTorch</span><span>Machine Learning</span><span>MLOps</span><span>NLP</span><span>Computer Vision</span><span>Time-series Analysis</span><span>Data Acquisition</span><span>Text to Speech</span><span>Audio Processing</span></div>
+      </div>
+      <div class="row reveal">
+        <div class="row-h mono">Tools<br>&amp; Creative</div>
+        <div class="chips big mono"><span>Photoshop</span><span>Illustrator</span><span>After Effects</span><span>Premiere Pro</span><span>Blender</span><span>Graphic Design</span></div>
+      </div>
+      <div class="row reveal">
+        <div class="row-h mono">Research</div>
+        <div class="chips big mono"><span>SPSS</span><span>R</span><span>Python</span><span>IEEE &amp; APA</span><span>Technical writing</span></div>
+      </div>
     </div>
-  </div>
-</section>
-<style>
-/* ---------- RESPONSIVE ---------- */
-section.mod,.hero{scroll-margin-top:64px}
-@media(max-width:1050px){.brand .ver{display:none}}
-@media(max-width:900px){
-  .navlinks{position:fixed;top:60px;right:0;left:0;flex-direction:column;background:rgba(3,7,5,.98);border-bottom:1px solid var(--border);padding:8px 18px 14px;gap:2px;transform:translateY(-135%);transition:transform .3s cubic-bezier(.2,.7,.2,1);align-items:stretch;backdrop-filter:blur(14px)}
-  .navlinks.open{transform:none}
-  .navlinks a{padding:11px 8px;border-radius:6px}
-  .navlinks a:hover{background:rgba(255,255,255,.05)}
-  .nav-cta{margin-top:6px;text-align:center;justify-content:center}
-  .nav-toggle{display:block}
-}
-@media(max-width:920px){
-  .about-grid,.layers,.ed-grid,.contact-grid{grid-template-columns:minmax(0,1fr)}
-}
-@media(max-width:760px){
-  .projgrid,.lab-grid,.channels{grid-template-columns:minmax(0,1fr)}
-  .lab-btns{grid-template-columns:1fr 1fr}
-  section.mod{padding:62px 0}
-  .sec-head{margin-bottom:28px}
-  .hero{padding:96px 0 56px}
-}
-@media(max-width:560px){
-  .modelcard .row{grid-template-columns:92px minmax(0,1fr)}
-  .heatgrid{grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}
-  .stat-row,.rstats{grid-template-columns:repeat(3,1fr)}
-  .pj-arch{font-size:10.6px}
-  .contact-intro .big{font-size:1.4rem}
-}
-@media(max-width:380px){
-  .heatgrid{grid-template-columns:1fr 1fr}
-  .lab-btns{grid-template-columns:1fr}
-  .hero-name{letter-spacing:-.03em}
-}
-@media (prefers-reduced-motion: reduce){
-  *{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
-}
-</style>
+  </section>
 
-<script>
-(function(){
-"use strict";
-const prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  <!-- CONTACT -->
+  <section id="contact" class="sec contact">
+    <div class="sec-head"><span class="idx mono">06</span><h2>Output <em>layer</em></h2></div>
+    <p class="argmax mono reveal">next = argmax( <span>interesting problems</span> )</p>
+    <p class="sec-sub reveal">If you have a messy real-world workflow, a model that needs to leave the notebook, or a retail network that needs reliable infrastructure, let's talk.</p>
 
-/* ---------- 1. HERO CONSOLE TYPING ---------- */
-(function(){
-  const el=document.getElementById('typed');
-  if(!el)return;
-  const txt='train --model lewis --data "retail+ml" --activate life --shard 254';
-  if(prefersReduced){el.textContent=txt;return;}
-  let i=0;
-  (function tick(){
-    if(i<=txt.length){el.textContent=txt.slice(0,i);i++;setTimeout(tick,42);}
-  })();
-})();
+    <div class="cta reveal">
+      <a class="btn primary mono" href="mailto:machiulewis@gmail.com">machiulewis@gmail.com</a>
+      <button class="btn mono" id="copyMail" type="button">copy email</button>
+      <a class="btn mono" href="https://github.com/lewinskie254" target="_blank" rel="noopener">github/lewinskie254</a>
+      <a class="btn mono" href="https://www.youtube.com/@lewinskie254" target="_blank" rel="noopener">youtube/@lewinskie254</a>
+    </div>
+  </section>
+</main>
 
-/* ---------- 2. NEURAL NET BACKGROUND ---------- */
-(function(){
-  const cv=document.getElementById('neuralbg');
-  if(!cv)return;
-  const ctx=cv.getContext('2d');
-  const LAYERS=[5,7,7,5,3];
-  const COLORS=['#aaff00','#39ff14','#5dff3a','#00ff9c','#00cc66'];
-  let W=0,H=0,dpr=1,layers=[],edges=[],nodes=[],signals=[],running=true,raf=null,lastSpawn=0;
-  function hexPath(cx,cy,r){ctx.beginPath();for(let i=0;i<6;i++){const a=-Math.PI/2+i*Math.PI/3;const px=cx+Math.cos(a)*r,py=cy+Math.sin(a)*r;if(i)ctx.lineTo(px,py);else ctx.moveTo(px,py);}ctx.closePath();}
+<footer class="foot mono">
+  <span>loss.backward(); optimizer.step();</span>
+  <span>© <span id="yr">2026</span> Lewis Machiu · Nairobi</span>
+</footer>
 
-  function layout(){
-    layers=[];edges=[];nodes=[];signals=[];
-    const padX=Math.max(36,W*0.07),padY=H*0.14;
-    const uW=W-padX*2,uH=H-padY*2;
-    const cols=LAYERS.length;
-    LAYERS.forEach((count,li)=>{
-      const x=padX+uW*(li/(cols-1));
-      const layer=[];
-      for(let i=0;i<count;i++){
-        const y=padY+uH*(count===1?0.5:i/(count-1));
-        const n={x,y,layer:li,glow:0,color:COLORS[li%COLORS.length]};
-        layer.push(n);nodes.push(n);
-      }
-      layers.push(layer);
-    });
-    for(let li=0;li<layers.length-1;li++){
-      const a=layers[li],b=layers[li+1];
-      a.forEach(na=>b.forEach(nb=>edges.push({a:na,b:nb})));
-    }
-  }
-  function resize(){
-    const r=cv.parentElement.getBoundingClientRect();
-    dpr=Math.min(window.devicePixelRatio||1,2);
-    W=Math.max(1,r.width);H=Math.max(1,r.height);
-    cv.width=W*dpr;cv.height=H*dpr;
-    cv.style.width=W+'px';cv.style.height=H+'px';
-    ctx.setTransform(dpr,0,0,dpr,0,0);
-    layout();
-  }
-  function spawn(){
-    if(signals.length>9)return;
-    const s0=layers[0][Math.floor(Math.random()*layers[0].length)];
-    const t=layers[1][Math.floor(Math.random()*layers[1].length)];
-    signals.push({a:s0,b:t,t:0,speed:0.55+Math.random()*0.5,color:COLORS[1%COLORS.length]});
-  }
-  function step(ts){
-    if(!running){raf=requestAnimationFrame(step);return;}
-    if(ts-lastSpawn>150){spawn();lastSpawn=ts;}
-    ctx.clearRect(0,0,W,H);
-    ctx.lineWidth=1;
-    ctx.strokeStyle='rgba(24,70,42,0.16)';
-    edges.forEach(e=>{ctx.beginPath();ctx.moveTo(e.a.x,e.a.y);ctx.lineTo(e.b.x,e.b.y);ctx.stroke();});
-    nodes.forEach(n=>n.glow*=0.92);
-    signals=signals.filter(s=>{
-      s.t+=s.speed*0.02;
-      if(s.t>=1){
-        s.b.glow=1;
-        const nxt=layers[s.b.layer+1];
-        if(nxt&&nxt.length){
-          s.a=s.b;s.b=nxt[Math.floor(Math.random()*nxt.length)];
-          s.t=0;s.speed=0.55+Math.random()*0.5;s.color=COLORS[s.b.layer%COLORS.length];
-          return true;
-        }
-        return false;
-      }
-      return true;
-    });
-    signals.forEach(s=>{
-      const x=s.a.x+(s.b.x-s.a.x)*s.t,y=s.a.y+(s.b.y-s.a.y)*s.t;
-      s.a.glow=Math.max(s.a.glow,0.45);
-      const g=ctx.createRadialGradient(x,y,0,x,y,9);
-      g.addColorStop(0,s.color);g.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle=g;ctx.beginPath();ctx.arc(x,y,9,0,7);ctx.fill();
-      ctx.fillStyle=s.color;ctx.beginPath();ctx.arc(x,y,2.3,0,7);ctx.fill();
-    });
-    nodes.forEach(n=>{
-      const r=4+n.glow*3.2;
-      if(n.glow>0.05){
-        const g=ctx.createRadialGradient(n.x,n.y,0,n.x,n.y,r*4.2);
-        g.addColorStop(0,n.color);g.addColorStop(1,'rgba(0,0,0,0)');
-        ctx.globalAlpha=Math.min(1,n.glow);ctx.fillStyle=g;
-        ctx.beginPath();ctx.arc(n.x,n.y,r*4.2,0,7);ctx.fill();ctx.globalAlpha=1;
-      }
-      hexPath(n.x,n.y,r);ctx.fillStyle='rgba(6,14,9,0.92)';ctx.fill();
-      hexPath(n.x,n.y,r);ctx.strokeStyle=n.color;ctx.lineWidth=1.4;ctx.stroke();
-    });
-    raf=requestAnimationFrame(step);
-  }
-  function drawStatic(){
-    resize();ctx.clearRect(0,0,W,H);
-    ctx.lineWidth=1;ctx.strokeStyle='rgba(24,70,42,0.16)';
-    edges.forEach(e=>{ctx.beginPath();ctx.moveTo(e.a.x,e.a.y);ctx.lineTo(e.b.x,e.b.y);ctx.stroke();});
-    nodes.forEach(n=>{hexPath(n.x,n.y,4);ctx.fillStyle='rgba(6,14,9,0.92)';ctx.fill();hexPath(n.x,n.y,4);ctx.strokeStyle=n.color;ctx.lineWidth=1.4;ctx.stroke();});
-  }
-  window.addEventListener('resize',()=>{clearTimeout(window._nbt);window._nbt=setTimeout(()=>{resize();},150);});
-  const hero=document.querySelector('.hero');
-  if(hero&&'IntersectionObserver' in window){
-    new IntersectionObserver(es=>{running=es[0].isIntersecting;},{threshold:0}).observe(hero);
-  }
-  if(prefersReduced){drawStatic();}
-  else{resize();raf=requestAnimationFrame(step);}
-})();
-
-/* ---------- 3. SCROLL PROGRESS (loss bar) ---------- */
-(function(){
-  const bar=document.getElementById('lossbar');
-  if(!bar)return;
-  function upd(){const st=window.scrollY||document.documentElement.scrollTop;const dh=document.documentElement.scrollHeight-window.innerHeight;bar.style.width=(dh>0?Math.min(100,st/dh*100):0)+'%';}
-  let t=false;
-  window.addEventListener('scroll',()=>{if(!t){t=true;requestAnimationFrame(()=>{upd();t=false;});}},{passive:true});
-  upd();
-})();
-
-/* ---------- 4. NAV: scroll-spy + mobile toggle ---------- */
-(function(){
-  const links=[].slice.call(document.querySelectorAll('.navlinks a[href^="#"]'));
-  const secs=links.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
-  if('IntersectionObserver' in window){
-    const spy=new IntersectionObserver(es=>{
-      es.forEach(e=>{if(e.isIntersecting){const id=e.target.id;links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+id));}});
-    },{rootMargin:'-45% 0px -50% 0px',threshold:0});
-    secs.forEach(s=>spy.observe(s));
-  }
-  const toggle=document.getElementById('navtoggle'),nl=document.getElementById('navlinks');
-  if(toggle&&nl){
-    toggle.addEventListener('click',()=>{nl.classList.toggle('open');toggle.textContent=nl.classList.contains('open')?'close':'menu';});
-    nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nl.classList.remove('open');if(toggle)toggle.textContent='menu';}));
-  }
-})();
-
-/* ---------- 5. REVEAL ON SCROLL ---------- */
-(function(){
-  const els=document.querySelectorAll('.reveal');
-  if(!('IntersectionObserver' in window)||prefersReduced){els.forEach(e=>e.classList.add('in'));return;}
-  const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target);}});},{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
-  els.forEach(e=>obs.observe(e));
-})();
-
-/* ---------- 6. ACTIVATION FUNCTION LAB ---------- */
-(function(){
-  const canvas=document.getElementById('actcanvas');
-  if(!canvas)return;
-  const ctx=canvas.getContext('2d');
-  const SQRT2=Math.SQRT2;
-
-  function erf(x){
-    const sign=x<0?-1:1;x=Math.abs(x);
-    const t=1/(1+0.3275911*x);
-    const y=1-(((((1.061405429*t-1.453152027)*t+1.421413741)*t-0.284496736)*t+0.254829592)*t)*Math.exp(-x*x);
-    return sign*y;
-  }
-  function sig(x){return 1/(1+Math.exp(-x));}
-  function pdf(x){return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI);}
-
-  const FNS={
-    sigmoid:{name:'Sigmoid',f:sig,df:function(x){var s=sig(x);return s*(1-s);},
-      formula:'σ(x) <span class="op">=</span> <span class="frac"><span class="top">1</span><span class="bot">1 + e<sup>−x</sup></span></span>',
-      note:'<b>Sigmoid</b> squashes any input into (0,1) — the original neural activation. Smooth and differentiable, but it saturates at the tails, which is exactly where vanishing gradients haunt deep networks.',
-      where:'output layers · binary classification gates'},
-    tanh:{name:'Tanh',f:Math.tanh,df:function(x){var t=Math.tanh(x);return 1-t*t;},
-      formula:'tanh(x) <span class="op">=</span> <span class="frac"><span class="top">e<sup>x</sup> − e<sup>−x</sup></span><span class="bot">e<sup>x</sup> + e<sup>−x</sup></span></span>',
-      note:'<b>Tanh</b> is the zero-centered sibling of sigmoid, output in (−1, 1). It usually beats sigmoid in hidden layers because activations are centered, but it still saturates and vanishes for large |x|.',
-      where:'hidden layers · bounded [−1, 1]'},
-    relu:{name:'ReLU',f:function(x){return Math.max(0,x);},df:function(x){return x>0?1:0;},
-      formula:'f(x) <span class="op">=</span> max(0, x)',
-      note:'<b>ReLU</b> is cheap and non-saturating on the positive side — the workhorse of modern deep learning. The catch: negatives map to zero and can get stuck there as “dead neurons”.',
-      where:'hidden layers · default in CNNs & MLPs'},
-    leaky:{name:'Leaky ReLU',f:function(x){return x>0?x:0.01*x;},df:function(x){return x>0?1:0.01;},
-      formula:'f(x) <span class="op">=</span> max(αx, x), <span class="mag">α = 0.01</span>',
-      note:'<b>Leaky ReLU</b> gives the negative side a small slope (α) so gradients never fully die — a cheap fix for ReLU’s dead-neuron problem.',
-      where:'hidden layers · avoids dead neurons'},
-    gelu:{name:'GELU',f:function(x){return 0.5*x*(1+erf(x/SQRT2));},df:function(x){return 0.5*(1+erf(x/SQRT2))+x*pdf(x);},
-      formula:'f(x) <span class="op">=</span> x · Φ(x) <span class="op">=</span> x · <span class="frac"><span class="top">1</span><span class="bot">2</span></span>[1 + erf(x/√2)]',
-      note:'<b>GELU</b> (Gaussian Error Linear Unit) gates activations by their own value under a Gaussian CDF — smooth and probabilistic. The default activation in transformers like BERT and GPT.',
-      where:'transformers · BERT, GPT'},
-    swish:{name:'Swish / SiLU',f:function(x){return x*sig(x);},df:function(x){var s=sig(x);return s+x*s*(1-s);},
-      formula:'f(x) <span class="op">=</span> x · σ(x)',
-      note:'<b>Swish</b> (a.k.a. SiLU) is x multiplied by its own sigmoid — self-gated and smooth, with a small bump below zero. An automated search found it, and it often edges out ReLU on deep models.',
-      where:'efficient nets · self-gated'},
-    elu:{name:'ELU',f:function(x){return x>0?x:Math.exp(x)-1;},df:function(x){return x>0?1:Math.exp(x);},
-      formula:'f(x) <span class="op">=</span> x &nbsp;if x&gt;0, &nbsp;else α(e<sup>x</sup> − 1)',
-      note:'<b>ELU</b> (Exponential Linear Unit) pushes negative outputs toward −α, bringing mean activations closer to zero for faster learning — at the cost of an exp on the negative side.',
-      where:'hidden layers · zero-centered negatives'},
-    softplus:{name:'Softplus',f:function(x){return x>20?x:Math.log1p(Math.exp(x));},df:sig,
-      formula:'f(x) <span class="op">=</span> ln(1 + e<sup>x</sup>)',
-      note:'<b>Softplus</b> is a smooth, differentiable approximation of ReLU — ln(1 + e^x) — whose derivative is exactly the sigmoid. Elegant math, but pricier than ReLU in practice.',
-      where:'smooth ReLU · probabilistic models'}
-  };
-
-  const XMIN=-6,XMAX=6;
-  let cur='sigmoid',plot={ymin:-1.2,ymax:1.2},hoverX=null;
-
-  function setupCanvas(){
-    const r=canvas.getBoundingClientRect();
-    const d=Math.min(window.devicePixelRatio||1,2);
-    canvas.width=Math.max(1,Math.round(r.width*d));
-    canvas.height=Math.max(1,Math.round(r.height*d));
-    ctx.setTransform(d,0,0,d,0,0);
-  }
-  function computeRange(fn){
-    let ymin=Infinity,ymax=-Infinity;const N=420;
-    for(let i=0;i<=N;i++){const x=XMIN+(XMAX-XMIN)*i/N;const y=fn.f(x),dy=fn.df(x);if(y<ymin)ymin=y;if(y>ymax)ymax=y;if(dy<ymin)ymin=dy;if(dy>ymax)ymax=dy;}
-    if(!isFinite(ymin)||!isFinite(ymax)){ymin=-1;ymax=1;}
-    const pad=(ymax-ymin)*0.14||0.5;
-    return {ymin:ymin-pad,ymax:ymax+pad};
-  }
-  function niceStep(raw){var p=Math.pow(10,Math.floor(Math.log10(raw)));var n=raw/p;var s=n<1.5?1:n<3?2:n<7?5:10;return s*p;}
-  function fmt(v){if(Math.abs(v)<1e-9)return '0';if(Math.abs(v)>=1)return (Math.round(v*10)/10).toString();return (Math.round(v*100)/100).toString();}
-
-  function draw(){
-    const w=canvas.clientWidth,h=canvas.clientHeight;
-    if(w<2||h<2)return;
-    ctx.clearRect(0,0,w,h);
-    const fn=FNS[cur],r=plot;
-    const px=function(x){return (x-XMIN)/(XMAX-XMIN)*w;};
-    const py=function(y){return h-(y-r.ymin)/(r.ymax-r.ymin)*h;};
-    ctx.font='10px JetBrains Mono, ui-monospace, monospace';
-    ctx.fillStyle='#6b7a92';
-    ctx.lineWidth=1;
-    ctx.strokeStyle='rgba(18,60,34,.32)';
-    for(let x=Math.ceil(XMIN);x<=XMAX;x++){const X=px(x);ctx.beginPath();ctx.moveTo(X,0);ctx.lineTo(X,h);ctx.stroke();if(x%2===0)ctx.fillText(String(x),X+3,h-4);}
-    const range=r.ymax-r.ymin;const ys=niceStep(range/4);
-    for(let y=Math.ceil(r.ymin/ys)*ys;y<=r.ymax;y+=ys){const Y=py(y);ctx.beginPath();ctx.moveTo(0,Y);ctx.lineTo(w,Y);ctx.stroke();ctx.fillText(fmt(y),4,Y-3);}
-    ctx.strokeStyle='rgba(80,150,100,.55)';ctx.lineWidth=1.2;
-    if(r.ymin<0&&r.ymax>0){const Y=py(0);ctx.beginPath();ctx.moveTo(0,Y);ctx.lineTo(w,Y);ctx.stroke();}
-    const X0=px(0);ctx.beginPath();ctx.moveTo(X0,0);ctx.lineTo(X0,h);ctx.stroke();
-    // derivative (dashed)
-    ctx.strokeStyle='#00cc66';ctx.lineWidth=1.8;ctx.setLineDash([5,4]);ctx.beginPath();
-    const N=600;
-    for(let i=0;i<=N;i++){const x=XMIN+(XMAX-XMIN)*i/N;const X=px(x),Y=py(fn.df(x));if(i)ctx.lineTo(X,Y);else ctx.moveTo(X,Y);}
-    ctx.stroke();ctx.setLineDash([]);
-    // f(x) gradient
-    const g=ctx.createLinearGradient(0,0,w,0);
-    g.addColorStop(0,'#39ff14');g.addColorStop(.5,'#00ff9c');g.addColorStop(1,'#aaff00');
-    ctx.strokeStyle=g;ctx.lineWidth=2.6;ctx.beginPath();
-    for(let i=0;i<=N;i++){const x=XMIN+(XMAX-XMIN)*i/N;const X=px(x),Y=py(fn.f(x));if(i)ctx.lineTo(X,Y);else ctx.moveTo(X,Y);}
-    ctx.stroke();
-    if(hoverX!==null){
-      const X=px(hoverX);
-      ctx.strokeStyle='rgba(170,255,0,.5)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(X,0);ctx.lineTo(X,h);ctx.stroke();
-      const fy=fn.f(hoverX),dy=fn.df(hoverX);
-      ctx.fillStyle='#aaff00';ctx.beginPath();ctx.arc(X,py(fy),3.6,0,7);ctx.fill();
-      ctx.fillStyle='#00cc66';ctx.beginPath();ctx.arc(X,py(dy),3,0,7);ctx.fill();
-    }
-  }
-
-  const btns=[].slice.call(document.querySelectorAll('#actbtns .lab-btn'));
-  const fEl=document.getElementById('actformula'),nEl=document.getElementById('actnote'),wEl=document.getElementById('actwhere');
-  const ro=document.getElementById('actreadout'),rx=document.getElementById('rx'),rf=document.getElementById('rf'),rdf=document.getElementById('rdf');
-  function select(key){
-    btns.forEach(b=>b.classList.toggle('active',b.dataset.fn===key));
-    cur=key;const fn=FNS[key];
-    fEl.innerHTML=fn.formula;nEl.innerHTML=fn.note;wEl.textContent=fn.where;
-    plot=computeRange(fn);draw();
-  }
-  btns.forEach(b=>b.addEventListener('click',function(){select(b.dataset.fn);}));
-
-  function xFromClient(cx){
-    const r=canvas.getBoundingClientRect();
-    const frac=(cx-r.left)/r.width;
-    return XMIN+frac*(XMAX-XMIN);
-  }
-  function showReadout(x){
-    const fn=FNS[cur];
-    rx.textContent=fmt(x);rf.textContent=fmt(fn.f(x));rdf.textContent=fmt(fn.df(x));
-    ro.classList.add('show');
-  }
-  canvas.addEventListener('mousemove',function(e){hoverX=xFromClient(e.clientX);draw();showReadout(hoverX);});
-  canvas.addEventListener('mouseleave',function(){hoverX=null;draw();ro.classList.remove('show');});
-  canvas.addEventListener('touchmove',function(e){if(e.touches.length){hoverX=xFromClient(e.touches[0].clientX);draw();showReadout(hoverX);}e.preventDefault();},{passive:false});
-  canvas.addEventListener('touchend',function(){hoverX=null;draw();ro.classList.remove('show');});
-
-  let rt=false;
-  window.addEventListener('resize',function(){if(!rt){rt=true;requestAnimationFrame(function(){setupCanvas();draw();rt=false;});}});
-
-  // init
-  function init(){setupCanvas();plot=computeRange(FNS.sigmoid);draw();}
-  if(document.readyState==='complete'){init();}
-  else{window.addEventListener('load',init);}
-  // also try a bit later in case layout settles
-  setTimeout(function(){setupCanvas();draw();},120);
-})();
-})();
-</script>
+<script src="main.js"></script>
 </body>
 </html>
